@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Carter+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="game.css"/>
+</head>
+<body>
+   <header>
+       <h1>Guess the word game</h1>
+   </header> 
+   <section>
+       <div class="gameArea">
+           <h3 class="msg"></h3>
+           <input type="text" class="hidden">
+           <button class="btn">Click here to start</button>
+       </div>
+   </section>
+   <script>
+      const msg=document.querySelector('.msg');
+      const guess=document.querySelector('input');
+      const btn=document.querySelector('.btn');
+      let play=false;
+      let newWords="";
+      let randWords="";
+      let sWords=['python','javascript','c++','php','c#','html','css','reactjs','swift','andriod','sql'];
+      const creteNewWords=()=>{
+          let ranNum=Math.floor(Math.random() * sWords.length);
+          let newTempSwords= sWords[ranNum];
+          return newTempSwords;
+      }
+      const scrambleWords= (arr) => {
+          for(let i=arr.length-1; i>0;i--){
+              let temp=arr[i];
+          let j=Math.floor(Math.random()*(i+1));
+          //console.log(i);
+          //console.log(j);
+          arr[i]=arr[j];
+          arr[j]=temp;
+          }
+          return arr;
+      }
+      btn.addEventListener('click',function(){
+          if(!play){
+            play=true;
+            btn.innerHTML="Guess";
+            guess.classList.toggle('hidden');  
+            newWords= creteNewWords(); 
+            randWords=scrambleWords(newWords.split("")).join(""); 
+            //cosole.log(randWords.join(""));   
+            msg.innerHTML=  `Guess the word :${randWords}`;
+        }
+        else{
+            let tempWord=guess.value;
+            if(tempWord===newWords){
+                play=false;
+                msg.innerHTML=`Awesome it's correct. it is ${newWords}`;
+                btn.innerHTML="start Again";
+                guess.classList.toggle('hidden');  
+                guess.value="";
+            }
+            else {
+                console.log(`incorrect`);
+                msg.innerHTML=`Sorry Boss.It's not Correct. Plz try again ${randWords}`;
+                        }
+        }
+
+      })
+   </script>
+</body>
+</html>
